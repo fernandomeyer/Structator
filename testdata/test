@@ -1,0 +1,28 @@
+#! /bin/sh
+
+set -e -x
+
+TESTINDEX="./index/test"
+TEMPINDEX="./index/temp"
+
+../bin/afsearch ./test.fa -pat ./patterns.pat -rna -global -show > ./temp_online.out
+diff ./online.out ./temp_online.out	
+
+../bin/afconstruct ./test.fa -rna -a -s $TEMPINDEX
+cmp -s $TESTINDEX.aflk $TEMPINDEX.aflk
+cmp -s $TESTINDEX.aflkr $TEMPINDEX.aflkr
+cmp -s $TESTINDEX.alph $TEMPINDEX.alph
+cmp -s $TESTINDEX.base $TEMPINDEX.base
+cmp -s $TESTINDEX.des $TEMPINDEX.des
+cmp -s $TESTINDEX.lcp $TEMPINDEX.lcp
+cmp -s $TESTINDEX.lcpr $TEMPINDEX.lcpr
+cmp -s $TESTINDEX.seq $TEMPINDEX.seq
+cmp -s $TESTINDEX.skp $TEMPINDEX.skp
+cmp -s $TESTINDEX.skpr $TEMPINDEX.skpr
+cmp -s $TESTINDEX.suf $TEMPINDEX.suf
+cmp -s $TESTINDEX.sufr $TEMPINDEX.sufr
+cmp -s $TESTINDEX.tseq $TEMPINDEX.tseq
+
+../bin/afsearch $TESTINDEX -pat ./patterns.pat -a -global -show > ./temp_indexed.out
+diff ./indexed.out ./temp_indexed.out
+
